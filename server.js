@@ -10,15 +10,20 @@ const app = express();
 const databaseUrl = "mongo_scrape";
 const collections = ["scrapedData"];
 
+// Connect db variable to database
 let db = mongojs(databaseUrl, collections);
+
 db.on("error", function(error) {
     console.log("Database Error:", error);
 })
 
 // Main route
+app.get("/", function(req, res) {
+    res.send("Hello World!");
+})
 
-// Scrape route
-app.get("/scraper", function(req, res) {
+// Main scrape route
+app.get("/main", function(req, res) {
     request("http://www.theonion.com", function(error, response, html) {
         
         let $ = cheerio.load(html);
@@ -26,16 +31,153 @@ app.get("/scraper", function(req, res) {
         $("h1.headline").each(function(i, element) {
 
             let text = $(element).text();
-            let link = $(element).attr("href");
+            let link = $(element).children().attr("href");
             
-            db.scrapedData.insert({text: text}, function(err, data) {
-                console.log("Scraped!!");
+            db.scrapedData.insert({text: text, link: link}, function(err, data) {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    console.log("Scraped!!");
+                }
+                
             })
         })
+        res.send("Done scraping The Onion!");
+    })
+})
 
-        res.send("Done!");
+// Sports
+app.get("/sports", function(req, res) {
+    request("http://sports.theonion.com", function(error, response, html) {
+
+        let $ = cheerio.load(html);
+
+        $("h1.headline").each(function(i, element) {
+
+            let text = $(element).text();
+            let link = $(element).children().attr("href");
+            let topic = "Sports";
+            
+            db.scrapedData.insert({text: text, link: link, topic: topic}, function(err, data) {
+                
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log("Scraped!")
+                }
+
+            })
+
+        })
 
     })
+    res.send("Done scraping Sports!")
+})
+
+// Local
+app.get("/local", function(req, res) {
+    request("http://local.theonion.com", function(error, response, html) {
+
+        let $ = cheerio.load(html);
+
+        $("h1.headline").each(function(i, element) {
+
+            let text = $(element).text();
+            let link = $(element).children().attr("href");
+            let topic = "Local";
+
+            db.scrapedData.insert({text: text, link: link, topic: topic}, function(err, data) {
+
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log("Scraped!");
+                }
+            })
+        })
+    })
+    res.send("Done scraping Local!");
+})
+
+// Politics
+app.get("/politics", function(req, res) {
+    request("http://politics.theonion.com", function(error, response, html) {
+
+        let $ = cheerio.load(html);
+
+        $("h1.headline").each(function(i, element) {
+
+            let text = $(element).text();
+            let link = $(element).children().attr("href");
+            let topic = "Politics";
+
+            db.scrapedData.insert({text: text, link: link, topic: topic}, function(err, data) {
+
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log("Scraped!");
+                }
+            })
+        })
+    })
+    res.send("Done scraping Politics!");
+})
+
+// Entertainment
+app.get("/entertainment", function(req, res) {
+    request("http://entertainment.theonion.com", function(error, response, html) {
+
+        let $ = cheerio.load(html);
+
+        $("h1.headline").each(function(i, element) {
+
+            let text = $(element).text();
+            let link = $(element).children().attr("href");
+            let topic = "Entertainment";
+
+            db.scrapedData.insert({text: text, link: link, topic: topic}, function(err, data) {
+
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log("Scraped!");
+                }
+            })
+        })
+    })
+    res.send("Done scraping Entertainment!");
+})
+
+// Opinion
+app.get("/opinion", function(req, res) {
+    request("http://opinion.theonion.com", function(error, response, html) {
+
+        let $ = cheerio.load(html);
+
+        $("h1.headline").each(function(i, element) {
+
+            let text = $(element).text();
+            let link = $(element).children().attr("href");
+            let topic = "Opinion";
+
+            db.scrapedData.insert({text: text, link: link, topic: topic}, function(err, data) {
+
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log("Scraped!");
+                }
+            })
+        })
+    })
+    res.send("Done scraping Opinion!");
 })
 
 // Listen
