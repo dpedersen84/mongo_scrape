@@ -154,32 +154,6 @@ app.get("/entertainment", function(req, res) {
     res.send("Done scraping Entertainment!");
 })
 
-// Opinion
-app.get("/opinion", function(req, res) {
-    request("http://opinion.theonion.com", function(error, response, html) {
-
-        let $ = cheerio.load(html);
-
-        $("h1.headline").each(function(i, element) {
-
-            let text = $(element).text();
-            let link = $(element).children().attr("href");
-            let topic = "Opinion";
-
-            db.scrapedData.insert({text: text, link: link, topic: topic}, function(err, data) {
-
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    console.log("Scraped!");
-                }
-            })
-        })
-    })
-    res.send("Done scraping Opinion!");
-})
-
 // Listen
 app.listen(3000, function() {
     console.log("App is running on Port 3000!");
