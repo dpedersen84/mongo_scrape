@@ -6,6 +6,8 @@ const cheerio = require("cheerio");
 // Express
 const app = express();
 
+app.use(express.static("public"));
+
 // Database config
 const databaseUrl = "mongo_scrape";
 const collections = ["scrapedData"];
@@ -32,6 +34,7 @@ app.get("/main", function(req, res) {
 
             let text = $(element).text();
             let link = $(element).children().attr("href");
+            // let image = $(element).children().attr("img.src");
             
             db.scrapedData.insert({text: text, link: link}, function(err, data) {
                 if (err) {
