@@ -1,54 +1,69 @@
 const express = require("express");
-const mongojs = require("mongojs");
-const request = require("request");
+// const mongojs = require("mongojs");
+// const request = require("request");
 const cheerio = require("cheerio");
+const bodyParser = require("body-parser");
+const axios = require("axios");
+const logger = require("morgan");
+const mongoose = require("mongoose");
 
 // Express
 const app = express();
 
+let db = require("./models");
+
+let PORT = 8080;
+
+// Configure middleware
+// ===========================================================
+// Use morgan logger for logging requests
+app.use(logger("dev"));
+// Use body-parser for handling form submissions
+app.use(bodyParser.urlencoded({ extended: true }));
+// Use express.static to serve the public folder as a static directory
 app.use(express.static("public"));
 
-// Database config
-const databaseUrl = "mongo_scrape";
-const collections = ["scrapedData"];
+// Connect to Mongo DB
+mongoose.connect("mongodb://localhost/mongo_scrape");
 
-// Connect db variable to database
-let db = mongojs(databaseUrl, collections);
-
-db.on("error", function(error) {
-    console.log("Database Error:", error);
-})
-
+// Routes
+// ===========================================================
 // Main route
 app.get("/", function(req, res) {
+    console.log("Hello World!");
     res.send("Hello World!");
 })
 
 // Main scrape route
-app.get("/main", function(req, res) {
-    request("http://www.theonion.com", function(error, response, html) {
+app.get("/scrape", function(req, res) {
+    axios.get("http://www.theonion.com").then(function(response) {
         
-        let $ = cheerio.load(html);
+        let $ = cheerio.load(response.data);
 
-        $("h1.headline").each(function(i, element) {
+        $("h1 a").each(function(i, element) {
 
-            let text = $(element).text();
-            let link = $(element).children().attr("href");
-            // let image = $(element).children().attr("img.src");
+            let result = {};
+
+            result.title = $(this).text();
+            result.link = $(this).attr("href");
+
+
+            db.Article.create(result)
+                .then(function(dbArticle) {
+                    console.log(dbArticle);
+                })
+                // .catch(function(err) {
+                //     return res.json(err);
+                // });
+
+
+
             
-            db.scrapedData.insert({text: text, link: link}, function(err, data) {
-                if (err) {
-                    console.log(err)
-                }
-                else {
-                    console.log("Scraped!!");
-                }
-                
-            })
-        })
+        });
+
         res.send("Done scraping The Onion!");
-    })
-})
+    });
+});
 
 // Sports
 app.get("/sports", function(req, res) {
@@ -158,6 +173,6 @@ app.get("/entertainment", function(req, res) {
 })
 
 // Listen
-app.listen(3000, function() {
-    console.log("App is running on Port 3000!");
+app.listen(PORT, function() {
+    console.log("App is running on Port " + PORT + "!");
 })
