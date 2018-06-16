@@ -12,15 +12,10 @@ let ArticleSchema = new Schema({
         type: String,
         required: true
     },
+    favorite: {
+        type: Boolean,
 
-
-
-
-
-
-
-
-
+    }
 });
 
 let Article = mongoose.model("Article", ArticleSchema);
