@@ -1,4 +1,4 @@
-$.getJSON("/main", function(data) {
-    displayResults(data);
+$.getJSON("/articles", function(data) {
+    console.log(data);
 });
 

@@ -47,24 +47,26 @@ app.get("/scrape", function(req, res) {
             result.title = $(this).text();
             result.link = $(this).attr("href");
 
-
             db.Article.create(result)
-                .then(function(dbArticle) {
-                    console.log(dbArticle);
+                .then(function(dbArticles) {
+                    console.log(dbArticles);
                 })
                 // .catch(function(err) {
                 //     return res.json(err);
                 // });
-
-
-
             
         });
-
         res.send("Done scraping The Onion!");
     });
 });
 
+// Route for all Articles in database
+app.get("/articles", function(req, res) {
+    db.Article.find({})
+        .then(function(dbArticles) {
+            res.json(dbArticles);
+        })
+});
 // Sports
 app.get("/sports", function(req, res) {
     request("http://sports.theonion.com", function(error, response, html) {
