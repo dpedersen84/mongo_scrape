@@ -15,11 +15,6 @@ let db = require("./models");
 let PORT = 8080;
 
 // Configure middleware
-// ===========================================================
-//=================================================================================
-//=================================================================================
-// Saving old routes in case I want to implement them in the future...
-//=================================================================================
 //=================================================================================
 // Use morgan logger for logging requests
 app.use(logger("dev"));
@@ -32,12 +27,7 @@ app.use(express.static("public"));
 mongoose.connect("mongodb://localhost/mongo_scrape");
 
 // Routes
-// ===========================================================
-// Main route
-app.get("/", function(req, res) {
-    console.log("Hello World!");
-    res.send("Hello World!");
-})
+//=================================================================================
 
 // Main scrape route
 app.get("/scrape", function(req, res) {
@@ -77,9 +67,10 @@ app.get("/articles", function(req, res) {
                 // });
 });
 
-// Route for a single Article in database
+// Route for a single Article in database, populate associated notes
 app.get("/articles/:id", function(req, res) {
     db.Article.findOne({_id: req.params.id})
+        .populate("note")
         .then(function(dbArticle) {
             console.log(dbArticle);
             res.json(dbArticle);

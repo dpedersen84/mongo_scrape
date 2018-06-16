@@ -14,7 +14,6 @@ let ArticleSchema = new Schema({
     },
     favorite: {
         type: Boolean,
-
     }
 });
 
