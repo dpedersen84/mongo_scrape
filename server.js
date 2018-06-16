@@ -42,6 +42,7 @@ app.get("/scrape", function(req, res) {
             result.title = $(this).text();
             result.link = $(this).attr("href");
             result.favorite = false;
+            result.image = $("picture").children("img").attr("src");
 
             db.Article.create(result)
                 .then(function(dbArticles) {
