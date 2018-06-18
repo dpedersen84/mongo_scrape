@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
+const path = require("path");
 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -96,11 +97,14 @@ app.post("/articles/:id", function(req, res) {
                 // });
 })
 
+app.get("/favorites", function(req, res) {
+    res.sendFile(path.join(__dirname, "/public/favorites.html"));
+})
+
 // Listen
 app.listen(PORT, function() {
     console.log("App is running on Port " + PORT + "!");
 });
-
 
 //=================================================================================
 //=================================================================================

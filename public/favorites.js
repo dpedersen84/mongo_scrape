@@ -34,21 +34,5 @@ $.getJSON("/articles", function(data) {
                 
             )
         }
-
-        $("#articles").append(
-            // $("<div>").text(article._id),
-            $("<div>").text(article.title),
-            $("<div>").text(article.link),
-            $("<div>").html(favBtn)
-            // .append(delFavBtn)
-            // .append(noteBtn)
-            .append(viewBtn)
-            
-        )
-            
-        
-
-    });
-});
-
-
+    })    
+})
