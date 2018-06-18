@@ -97,6 +97,17 @@ app.post("/articles/:id", function(req, res) {
                 // });
 })
 
+// Route to remove single Article in database from favorites
+app.put("/articles/:id", function(req, res) {
+    db.Article.findOneAndUpdate({ _id: req.params.id }, { favorite: false })
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        // .catch(function(err) {
+                //     res.json(err);
+                // });
+})
+
 app.get("/favorites", function(req, res) {
     res.sendFile(path.join(__dirname, "/public/favorites.html"));
 })

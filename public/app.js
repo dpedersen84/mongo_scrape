@@ -5,11 +5,13 @@ $.getJSON("/articles", function(data) {
         // console.log(article);
         let favBtn = $("<button>")
                         .addClass("favorite")
-                        .text("Favorite Article");
+                        .text("Favorite Article")
+                        .attr("id", article._id);
 
         let delFavBtn = $("<button>")
-                        .addClass("delete")
-                        .text("Remove Favorite");
+                        .addClass("delete-favorite")
+                        .text("Remove Favorite")
+                        .attr("id", article._id);
 
         let noteBtn = $("<button>")
                         .addClass("note")
@@ -43,12 +45,47 @@ $.getJSON("/articles", function(data) {
             // .append(delFavBtn)
             // .append(noteBtn)
             .append(viewBtn)
+
+            
             
         )
-            
+        
         
 
     });
 });
 
+$(document).on("click", ".favorite", function() {
 
+    let thisId = $(this).attr("id");
+
+    console.log(thisId);
+
+    $.ajax({
+        method: "POST",
+        url: "/articles/" + thisId,
+        data: {
+            favorite: true
+        }
+    })
+
+})
+
+$(document).on("click", ".delete-favorite", function() {
+
+    let thisId = $(this).attr("id");
+
+    console.log(thisId);
+
+    $.ajax({
+        method: "PUT",
+        url: "/articles/" + thisId,
+        data: {
+            favorite: false
+        }
+    })
+    .then(function() {
+        location.reload();
+    })
+
+})
