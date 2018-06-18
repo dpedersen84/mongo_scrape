@@ -68,6 +68,16 @@ $(document).on("click", ".favorite", function() {
             favorite: true
         }
     })
+    .then(function(data) {
+        console.log(data);
+        if (data.favorite === true) {
+            alert("Article already favorited!");
+        }
+        else {
+            alert("Favorite Added!");
+        }
+        
+    })
 
 })
 
