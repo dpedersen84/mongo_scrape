@@ -1,13 +1,15 @@
 const express = require("express");
-// const mongojs = require("mongojs");
-// const request = require("request");
-const cheerio = require("cheerio");
 const bodyParser = require("body-parser");
-const axios = require("axios");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 
-// Express
+// Our scraping tools
+// Axios is a promised-based http library, similar to jQuery's Ajax method
+// It works on the client and on the server
+const cheerio = require("cheerio");
+const axios = require("axios");
+
+// Enable Express
 const app = express();
 
 let db = require("./models");
@@ -15,7 +17,6 @@ let db = require("./models");
 let PORT = 8080;
 
 // Configure middleware
-//=================================================================================
 // Use morgan logger for logging requests
 app.use(logger("dev"));
 // Use body-parser for handling form submissions
@@ -26,9 +27,12 @@ app.use(express.static("public"));
 // Connect to Mongo DB
 mongoose.connect("mongodb://localhost/mongo_scrape");
 
-// Routes
-//=================================================================================
+// Handlebars
+var exphbs = require("express-handlebars");
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
+// Routes
 // Main scrape route
 app.get("/scrape", function(req, res) {
     axios.get("http://www.theonion.com").then(function(response) {
