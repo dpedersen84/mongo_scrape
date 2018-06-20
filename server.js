@@ -108,6 +108,21 @@ app.put("/articles/:id", function(req, res) {
                 // });
 })
 
+// Route to save/update an Article's note
+app.post("/articles/:id", function(req, res) {
+    db.Note.create(req.body)
+        .then(function(dbNote) {
+            return db.Article.findOneAndUpdate({_id: req.params.id}, {note: dbNote._id}, {new: true});
+        })
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        // .catch(function(err) {
+                //     res.json(err);
+                // });
+})
+
+// Route to favorites page
 app.get("/favorites", function(req, res) {
     res.sendFile(path.join(__dirname, "/public/favorites.html"));
 })

@@ -1,5 +1,13 @@
 $.getJSON("/articles", function(data) {
     console.log(data);
+    if (data.length === 0) {
+        
+        console.log("No articles!");
+
+        let message = "No articles have been scraped!";
+
+        $("#articles").text(message);
+    };
 
     data.forEach(article => {
         // console.log(article);
@@ -22,7 +30,7 @@ $.getJSON("/articles", function(data) {
                         .text("View Article")
                         .attr("href", article.link);
 
-        let div = $("<div>")
+        let div = $("<div>");
                 
         if (article.favorite === true) {
             $("#favorites").append(
@@ -33,9 +41,8 @@ $.getJSON("/articles", function(data) {
                 .append(delFavBtn)
                 .append(noteBtn)
                 .append(viewBtn)
-                
             )
-        }
+        };
 
         $("#articles").append(
             // $("<div>").text(article._id),
@@ -45,13 +52,7 @@ $.getJSON("/articles", function(data) {
             // .append(delFavBtn)
             // .append(noteBtn)
             .append(viewBtn)
-
-            
-            
-        )
-        
-        
-
+        );
     });
 });
 
@@ -93,6 +94,19 @@ $(document).on("click", ".delete-favorite", function() {
         data: {
             favorite: false
         }
+    })
+    .then(function() {
+        location.reload();
+    })
+
+})
+
+$(document).on("click", "#scrape", function() {
+    console.log("Scraping!");
+
+    $.ajax({
+        method: "GET",
+        url: "/scrape"
     })
     .then(function() {
         location.reload();
