@@ -23,7 +23,10 @@ $.getJSON("/articles", function(data) {
 
         let noteBtn = $("<button>")
                         .addClass("note")
-                        .text("Add Note");
+                        .text("Add Note")
+                        .attr("id", article._id)
+                        .attr("data-target", "#myModal")
+                        .attr("data-toggle", "modal");
             
         let viewBtn = $("<button>")
                         .addClass("view")
@@ -80,7 +83,7 @@ $(document).on("click", ".favorite", function() {
         
     })
 
-})
+});
 
 $(document).on("click", ".delete-favorite", function() {
 
@@ -99,7 +102,7 @@ $(document).on("click", ".delete-favorite", function() {
         location.reload();
     })
 
-})
+});
 
 $(document).on("click", "#scrape", function() {
     console.log("Scraping!");
@@ -112,4 +115,18 @@ $(document).on("click", "#scrape", function() {
         location.reload();
     })
 
+});
+
+$(document).on("click", ".note", function() {
+
+    let thisId = $(this).attr("id");
+
+    console.log(thisId);
+});
+
+$(document).on("click", ".view", function() {
+
+    let link = $(this).attr("href");
+
+    window.location.href = link;
 })
