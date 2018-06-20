@@ -122,6 +122,15 @@ $(document).on("click", ".note", function() {
     let thisId = $(this).attr("id");
 
     console.log(thisId);
+
+    $.ajax({
+        method: "GET",
+        url: "/articles/" + thisId
+    })
+    .then(function(data) {
+        console.log(data);
+        $(".modal-footer").append("<button data-id='" + data._id + "' id='saveNote' data-dismiss='modal' class='btn btn-default'>Save Note</button>");
+    })
 });
 
 $(document).on("click", ".view", function() {
@@ -129,4 +138,32 @@ $(document).on("click", ".view", function() {
     let link = $(this).attr("href");
 
     window.location.href = link;
-})
+});
+
+$(document).on("click", "#saveNote", function() {
+
+    var thisId = $(this).attr("data-id");
+
+    console.log(thisId);
+    let noteTitle = $("#noteTitle").val();
+    let noteBody = $("#noteBody").val();
+
+    console.log(noteTitle, noteBody);
+
+    $.ajax({
+        method: "POST",
+        url: "/articles/" + thisId,
+        data: {
+            title: noteTitle,
+            body: noteBody
+        }
+    })
+    .then(function(data) {
+        console.log("====== Note Data =====");
+        console.log(data);
+        $(".modal-footer").empty();
+    });
+
+    $("#noteTitle").val("");
+    $("#noteBody").val("");
+});
