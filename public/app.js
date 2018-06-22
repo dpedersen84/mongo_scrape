@@ -4,13 +4,16 @@ $.getJSON("/articles", function(data) {
         
         console.log("No articles!");
 
-        let message = "No articles have been scraped!";
+        let message = $("<h2>")
+                    .addClass("message")
+                    .css({"text-align": "center"})
+                    .html("No articles have been scraped!");
 
-        $("#articles").text(message);
+        $("#articles").append(message);
     };
 
     data.forEach(article => {
-        // console.log(article);
+        
         let favBtn = $("<button>")
                         .addClass("favorite")
                         .text("Favorite Article")
@@ -33,27 +36,20 @@ $.getJSON("/articles", function(data) {
                         .text("View Article")
                         .attr("href", article.link);
 
-        let div = $("<div>");
-                
         if (article.favorite === true) {
             $("#favorites").append(
-                // $("<div>").text(article._id),
                 $("<div>").text(article.title),
                 $("<div>").text(article.link),
-                $("<div>").html(favBtn)
-                .append(delFavBtn)
+                $("<div>").append(delFavBtn)
                 .append(noteBtn)
                 .append(viewBtn)
             )
         };
 
         $("#articles").append(
-            // $("<div>").text(article._id),
             $("<div>").text(article.title),
             $("<div>").text(article.link),
             $("<div>").html(favBtn)
-            // .append(delFavBtn)
-            // .append(noteBtn)
             .append(viewBtn)
         );
     });
@@ -112,9 +108,10 @@ $(document).on("click", "#scrape", function() {
         url: "/scrape"
     })
     .then(function() {
-        location.reload();
+        $(document).on("click", "#scrapeModalClose", function() {
+            location.reload();
+        })
     })
-
 });
 
 $(document).on("click", ".note", function() {
