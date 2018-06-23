@@ -87,6 +87,7 @@ app.get("/articles/:id", function(req, res) {
 });
 
 // Route to update single Article in database to a favorite
+// this does not work if it is a put
 app.post("/articles/:id", function(req, res) {
     db.Article.findOneAndUpdate({ _id: req.params.id }, { favorite: true })
         .then(function(dbArticle) {
@@ -110,6 +111,8 @@ app.put("/articles/:id", function(req, res) {
 
 // Route to save/update an Article's note
 app.post("/articles/:id", function(req, res) {
+    console.log("create new note");
+
     db.Note.create(req.body)
         .then(function(dbNote) {
             return db.Article.findOneAndUpdate({_id: req.params.id}, {note: dbNote._id}, {new: true});
