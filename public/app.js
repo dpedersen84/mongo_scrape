@@ -15,24 +15,24 @@ $.getJSON("/articles", function(data) {
     data.forEach(article => {
         
         let favBtn = $("<button>")
-                        .addClass("favorite")
+                        .addClass("favorite btn btn-primary")
                         .text("Favorite Article")
                         .attr("id", article._id);
 
         let delFavBtn = $("<button>")
-                        .addClass("delete-favorite")
+                        .addClass("delete-favorite btn btn-danger")
                         .text("Remove Favorite")
                         .attr("id", article._id);
 
         let noteBtn = $("<button>")
-                        .addClass("note")
+                        .addClass("note btn btn-warning")
                         .text("Add Note")
                         .attr("id", article._id)
                         .attr("data-target", "#myModal")
                         .attr("data-toggle", "modal");
             
         let viewBtn = $("<button>")
-                        .addClass("view")
+                        .addClass("view btn btn-info")
                         .text("View Article")
                         .attr("href", article.link);
 
@@ -62,7 +62,7 @@ $(document).on("click", ".favorite", function() {
     console.log(thisId);
 
     $.ajax({
-        method: "POST",
+        method: "PUT",
         url: "/articles/" + thisId,
         data: {
             favorite: true
@@ -127,6 +127,20 @@ $(document).on("click", ".note", function() {
     .then(function(data) {
         console.log(data);
         $(".modal-footer").append("<button data-id='" + data._id + "' id='saveNote' data-dismiss='modal' class='btn btn-default'>Save Note</button>");
+
+        if (data.note) {
+
+            let delNoteBtn = $("<button>")
+                            .addClass("delete-note btn btn-sm btn-danger")
+                            .text("X")
+                            .attr("id", data.note._id);
+            const div = $("<div>");
+
+            $("#currentNotes").append(
+                div.append(data.note.body)
+                .append(delNoteBtn)
+            )
+        }
     })
 });
 
@@ -142,16 +156,15 @@ $(document).on("click", "#saveNote", function() {
     var thisId = $(this).attr("data-id");
 
     console.log(thisId);
-    let noteTitle = $("#noteTitle").val();
+
     let noteBody = $("#noteBody").val();
 
-    console.log(noteTitle, noteBody);
+    console.log(noteBody);
 
     $.ajax({
         method: "POST",
         url: "/articles/" + thisId,
         data: {
-            title: noteTitle,
             body: noteBody
         }
     })
@@ -161,6 +174,5 @@ $(document).on("click", "#saveNote", function() {
         $(".modal-footer").empty();
     });
 
-    $("#noteTitle").val("");
     $("#noteBody").val("");
 });
