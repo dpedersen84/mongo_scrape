@@ -47,7 +47,6 @@ app.get("/scrape", function(req, res) {
             result.title = $(this).text();
             result.link = $(this).attr("href");
             result.favorite = false;
-            result.image = $("picture").children("img").attr("src");
 
             db.Article.create(result)
                 .then(function(dbArticles) {
@@ -87,7 +86,6 @@ app.get("/articles/:id", function(req, res) {
 });
 
 // Route to update single Article in database to a favorite
-// this does not work if it is a put
 app.put("/articles/:id", function(req, res) {
     console.log("add favorite");
     db.Article.findByIdAndUpdate({ _id: req.params.id }, { favorite: true })
@@ -122,9 +120,9 @@ app.post("/articles/:id", function(req, res) {
         .then(function(dbArticle) {
             res.json(dbArticle);
         })
-//         // .catch(function(err) {
-//                 //     res.json(err);
-//                 // });
+        // .catch(function(err) {
+                //     res.json(err);
+                // });
 })
 
 // Route to delete note from Article
@@ -133,6 +131,9 @@ app.delete("/articles/:id", function(req, res) {
     .then(function(dbArticle) {
         res.json(dbArticle);
     })
+    // .catch(function(err) {
+                //     res.json(err);
+                // });
 })
 
 // Route to favorites page

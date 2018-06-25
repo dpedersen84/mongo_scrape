@@ -4,7 +4,7 @@ $.getJSON("/articles", function(data) {
         
         console.log("No articles!");
 
-        let message = $("<h2>")
+        const message = $("<h2>")
                     .addClass("message")
                     .css({"text-align": "center"})
                     .html("No articles have been scraped!");
@@ -13,11 +13,8 @@ $.getJSON("/articles", function(data) {
     };
 
     data.forEach(article => {
-        
-        let favBtn = $("<button>")
-                        .addClass("favorite btn btn-primary")
-                        .text("Favorite Article")
-                        .attr("id", article._id);
+
+        let well = $("<div class='well'>");
 
         let delFavBtn = $("<button>")
                         .addClass("delete-favorite btn btn-danger")
@@ -38,52 +35,21 @@ $.getJSON("/articles", function(data) {
 
         if (article.favorite === true) {
             $("#favorites").append(
+                well.append(
                 $("<div>").text(article.title),
                 $("<div>").text(article.link),
                 $("<div>").append(delFavBtn)
                 .append(noteBtn)
                 .append(viewBtn)
+                )
             )
         };
-
-        $("#articles").append(
-            $("<div>").text(article.title),
-            $("<div>").text(article.link),
-            $("<div>").html(favBtn)
-            .append(viewBtn)
-        );
     });
-});
-
-$(document).on("click", ".favorite", function() {
-
-    let thisId = $(this).attr("id");
-
-    console.log(thisId);
-
-    $.ajax({
-        method: "PUT",
-        url: "/articles/" + thisId,
-        data: {
-            favorite: true
-        }
-    })
-    .then(function(data) {
-        console.log(data);
-        if (data.favorite === true) {
-            alert("Article already favorited!");
-        }
-        else {
-            alert("Favorite Added!");
-        }
-        
-    })
-
 });
 
 $(document).on("click", ".delete-favorite", function() {
 
-    let thisId = $(this).attr("id");
+    const thisId = $(this).attr("id");
 
     console.log(thisId);
 
@@ -100,23 +66,9 @@ $(document).on("click", ".delete-favorite", function() {
 
 });
 
-$(document).on("click", "#scrape", function() {
-    console.log("Scraping!");
-
-    $.ajax({
-        method: "GET",
-        url: "/scrape"
-    })
-    .then(function() {
-        $(document).on("click", "#scrapeModalClose", function() {
-            location.reload();
-        })
-    })
-});
-
 $(document).on("click", ".note", function() {
 
-    let thisId = $(this).attr("id");
+    const thisId = $(this).attr("id");
 
     console.log(thisId);
 
@@ -129,16 +81,24 @@ $(document).on("click", ".note", function() {
         $(".modal-footer").append("<button data-id='" + data._id + "' id='saveNote' data-dismiss='modal' class='btn btn-default'>Save Note</button>");
 
         if (data.note) {
+            
+            console.log(data.note);
+            const well = $("<div class='well'>");
 
-            let delNoteBtn = $("<button>")
+            const delNoteBtn = $("<button>")
                             .addClass("delete-note btn btn-sm btn-danger")
-                            .text("X")
+                            .text("Remove Note")
                             .attr("id", data.note._id);
+
             const div = $("<div>");
 
+            const pTag = $("<p>");
+
             $("#currentNotes").append(
-                div.append(data.note.body)
-                .append(delNoteBtn)
+                well.append(
+                div.append(pTag.append(data.note.body)),
+                div.append(delNoteBtn)
+                )
             )
         }
     })
@@ -146,18 +106,18 @@ $(document).on("click", ".note", function() {
 
 $(document).on("click", ".view", function() {
 
-    let link = $(this).attr("href");
+    const link = $(this).attr("href");
 
     window.location.href = link;
 });
 
 $(document).on("click", "#saveNote", function() {
 
-    var thisId = $(this).attr("data-id");
+    const thisId = $(this).attr("data-id");
 
     console.log(thisId);
 
-    let noteBody = $("#noteBody").val();
+    const noteBody = $("#noteBody").val();
 
     console.log(noteBody);
 
@@ -169,10 +129,24 @@ $(document).on("click", "#saveNote", function() {
         }
     })
     .then(function(data) {
-        console.log("====== Note Data =====");
         console.log(data);
-        $(".modal-footer").empty();
     });
 
     $("#noteBody").val("");
+    $(".modal-footer").empty();
 });
+
+$(document).on("click", ".delete-note", function() {
+
+    const noteId = $(this).attr("id");
+
+    console.log(noteId);
+
+    $.ajax({
+        method: "DELETE",
+        url: "/articles/" + noteId,
+    })
+    .then(function() {
+        location.reload();
+    })
+})
