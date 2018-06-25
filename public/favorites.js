@@ -14,21 +14,21 @@ $.getJSON("/articles/favorites", function(data) {
 
     data.forEach(article => {
 
-        let well = $("<div class='well'>");
+        const well = $("<div class='well'>");
 
-        let delFavBtn = $("<button>")
+        const delFavBtn = $("<button>")
                         .addClass("delete-favorite btn btn-danger")
                         .text("Remove Favorite")
                         .attr("id", article._id);
 
-        let noteBtn = $("<button>")
+        const noteBtn = $("<button>")
                         .addClass("note btn btn-warning")
                         .text("Notes")
                         .attr("id", article._id)
                         .attr("data-target", "#myModal")
                         .attr("data-toggle", "modal");
             
-        let viewBtn = $("<button>")
+        const viewBtn = $("<button>")
                         .addClass("view btn btn-info")
                         .text("View Article")
                         .attr("href", article.link);
@@ -48,7 +48,7 @@ $.getJSON("/articles/favorites", function(data) {
 
 $(document).on("click", ".delete-favorite", function() {
 
-    const thisId = $(this).attr("id");
+    let thisId = $(this).attr("id");
 
     console.log(thisId);
 
@@ -67,7 +67,7 @@ $(document).on("click", ".delete-favorite", function() {
 
 $(document).on("click", ".note", function() {
 
-    const thisId = $(this).attr("id");
+    let thisId = $(this).attr("id");
 
     console.log(thisId);
 
@@ -86,6 +86,7 @@ $(document).on("click", ".note", function() {
             $(".modal-footer").empty();
 
             console.log(data.note);
+
             const well = $("<div class='well'>");
 
             const delNoteBtn = $("<button>")
@@ -112,14 +113,16 @@ $(document).on("click", ".note", function() {
 
 $(document).on("click", ".view", function() {
 
-    const link = $(this).attr("href");
+    let link = $(this).attr("href");
 
     window.location.href = link;
 });
 
+// To Do:
+// Currently only lets you save one note
 $(document).on("click", "#saveNote", function() {
 
-    const thisId = $(this).attr("data-id");
+    let thisId = $(this).attr("data-id");
 
     console.log(thisId);
 
@@ -150,7 +153,7 @@ $(document).on("click", "#closeNotes", function() {
 
 $(document).on("click", ".delete-note", function() {
 
-    const noteId = $(this).attr("id");
+    let noteId = $(this).attr("id");
 
     console.log(noteId);
 

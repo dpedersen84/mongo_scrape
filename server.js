@@ -13,9 +13,9 @@ const axios = require("axios");
 // Enable Express
 const app = express();
 
-let db = require("./models");
+const db = require("./models");
 
-let PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 // Configure middleware
 // Use morgan logger for logging requests
@@ -29,16 +29,18 @@ app.use(express.static("public"));
 mongoose.connect("mongodb://localhost/mongo_scrape");
 
 // Handlebars
-var exphbs = require("express-handlebars");
+const exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 // Routes
 // Main scrape route
+// To Do:
+// Stop scraping of duplicate articles
 app.get("/scrape", function(req, res) {
     axios.get("http://www.theonion.com").then(function(response) {
         
-        let $ = cheerio.load(response.data);
+        const $ = cheerio.load(response.data);
 
         $("h1 a").each(function(i, element) {
 
@@ -52,10 +54,9 @@ app.get("/scrape", function(req, res) {
                 .then(function(dbArticles) {
                     console.log(dbArticles);
                 })
-                // .catch(function(err) {
-                //     res.json(err);
-                // });
-            
+                .catch(function(err) {
+                    res.json(err);
+                });
         });
         res.send("Done scraping The Onion!");
     });
@@ -67,9 +68,9 @@ app.get("/articles", function(req, res) {
         .then(function(dbArticles) {
             res.json(dbArticles);
         })
-        // .catch(function(err) {
-                //     res.json(err);
-                // });
+        .catch(function(err) {
+            res.json(err);
+        });
 });
 
 // Route for favorite articles in database
@@ -79,9 +80,9 @@ app.get("/articles/favorites", function(req, res) {
             console.log(dbArticle);
             res.json(dbArticle);
         })
-        // .catch(function(err) {
-                //     res.json(err);
-                // });
+        .catch(function(err) {
+            res.json(err);
+        });
 });
 
 // Route for a single favorite Article in database, populate associated notes
@@ -92,9 +93,9 @@ app.get("/articles/favorites/:id", function(req, res) {
             console.log(dbArticle);
             res.json(dbArticle);
         })
-        // .catch(function(err) {
-                //     res.json(err);
-                // });
+        .catch(function(err) {
+            res.json(err);
+        });
 });
 
 // Route to update single Article in database to a favorite
@@ -104,9 +105,9 @@ app.put("/articles/:id", function(req, res) {
         .then(function(dbArticle) {
             res.json(dbArticle);
         })
-        // .catch(function(err) {
-                //     res.json(err);
-                // });
+        .catch(function(err) {
+            res.json(err);
+        });
 })
 
 // Route to remove single Article in database from favorites
@@ -116,15 +117,13 @@ app.put("/articles/favorites/:id", function(req, res) {
         .then(function(dbArticle) {
             res.json(dbArticle);
         })
-        // .catch(function(err) {
-                //     res.json(err);
-                // });
+        .catch(function(err) {
+            res.json(err);
+        });
 })
 
 // Route to save/update an Article's note
 app.post("/articles/favorites/:id", function(req, res) {
-    console.log("create new note");
-
     db.Note.create(req.body)
         .then(function(dbNote) {
             return db.Article.findOneAndUpdate({_id: req.params.id}, {note: dbNote._id}, {new: true});
@@ -132,20 +131,20 @@ app.post("/articles/favorites/:id", function(req, res) {
         .then(function(dbArticle) {
             res.json(dbArticle);
         })
-        // .catch(function(err) {
-                //     res.json(err);
-                // });
+        .catch(function(err) {
+            res.json(err);
+        });
 })
 
 // Route to delete note from Article
 app.delete("/articles/favorites/:id", function(req, res) {
     db.Note.findByIdAndRemove({_id: req.params.id})
-    .then(function(dbArticle) {
-        res.json(dbArticle);
-    })
-    // .catch(function(err) {
-                //     res.json(err);
-                // });
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
 })
 
 // Route to favorites page

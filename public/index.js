@@ -4,7 +4,7 @@ $.getJSON("/articles", function(data) {
         
         console.log("No articles!");
 
-        let message = $("<h2>")
+        const message = $("<h2>")
                     .addClass("message")
                     .css({"text-align": "center"})
                     .html("No articles have been scraped!");
@@ -14,14 +14,14 @@ $.getJSON("/articles", function(data) {
 
     data.forEach(article => {
 
-        let well = $("<div class='well'>");
+        const well = $("<div class='well'>");
         
-        let favBtn = $("<button>")
+        const favBtn = $("<button>")
                         .addClass("favorite btn btn-primary")
                         .text("Favorite Article")
                         .attr("id", article._id);
             
-        let viewBtn = $("<button>")
+        const viewBtn = $("<button>")
                         .addClass("view btn btn-info")
                         .text("View Article")
                         .attr("href", article.link);
@@ -58,7 +58,7 @@ $(document).on("click", ".favorite", function() {
         else {
             alert("Favorite Added!");
         }
-        
+        // Would like to change these to modals in future
     })
 
 });
