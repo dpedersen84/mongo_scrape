@@ -1,6 +1,6 @@
 # The Onion Scraper!
 
-## This application uses Express.js, Node.js, and MongoDB to scrape The Onion for its most recent articles.
+### This application uses Express.js, Node.js, and MongoDB to scrape The Onion for its most recent articles.
 
 **NPMs Used:**
 
