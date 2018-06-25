@@ -72,8 +72,20 @@ app.get("/articles", function(req, res) {
                 // });
 });
 
-// Route for a single Article in database, populate associated notes
-app.get("/articles/:id", function(req, res) {
+// Route for favorite articles in database
+app.get("/articles/favorites", function(req, res) {
+    db.Article.find({favorite: true})
+        .then(function(dbArticle) {
+            console.log(dbArticle);
+            res.json(dbArticle);
+        })
+        // .catch(function(err) {
+                //     res.json(err);
+                // });
+});
+
+// Route for a single favorite Article in database, populate associated notes
+app.get("/articles/favorites/:id", function(req, res) {
     db.Article.findOne({_id: req.params.id})
         .populate("note")
         .then(function(dbArticle) {
@@ -98,9 +110,9 @@ app.put("/articles/:id", function(req, res) {
 })
 
 // Route to remove single Article in database from favorites
-app.put("/articles/:id", function(req, res) {
+app.put("/articles/favorites/:id", function(req, res) {
     console.log("remove favorite");
-    db.Article.findByIdAndUpdate({ _id: req.params.id }, { favorite: false })
+    db.Article.findByIdAndUpdate({ _id: req.params.id}, { favorite: false})
         .then(function(dbArticle) {
             res.json(dbArticle);
         })
@@ -110,7 +122,7 @@ app.put("/articles/:id", function(req, res) {
 })
 
 // Route to save/update an Article's note
-app.post("/articles/:id", function(req, res) {
+app.post("/articles/favorites/:id", function(req, res) {
     console.log("create new note");
 
     db.Note.create(req.body)
@@ -126,7 +138,7 @@ app.post("/articles/:id", function(req, res) {
 })
 
 // Route to delete note from Article
-app.delete("/articles/:id", function(req, res) {
+app.delete("/articles/favorites/:id", function(req, res) {
     db.Note.findByIdAndRemove({_id: req.params.id})
     .then(function(dbArticle) {
         res.json(dbArticle);
