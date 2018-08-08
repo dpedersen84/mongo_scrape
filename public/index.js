@@ -5,6 +5,7 @@ $.getJSON("/articles", function(data) {
         console.log("No articles!");
 
         const message = $("<h2>")
+
                     .addClass("message")
                     .css({"text-align": "center"})
                     .html("No articles have been scraped!");
@@ -58,7 +59,26 @@ $(document).on("click", ".favorite", function() {
         else {
             alert("Favorite Added!");
         }
-        // Would like to change these to modals in future
+        
+    })
+
+});
+
+$(document).on("click", ".delete-favorite", function() {
+
+    let thisId = $(this).attr("id");
+
+    console.log(thisId);
+
+    $.ajax({
+        method: "PUT",
+        url: "/articles/" + thisId,
+        data: {
+            favorite: false
+        }
+    })
+    .then(function() {
+        location.reload();
     })
 
 });
@@ -77,9 +97,65 @@ $(document).on("click", "#scrape", function() {
     })
 });
 
+$(document).on("click", ".note", function() {
+
+    let thisId = $(this).attr("id");
+
+    console.log(thisId);
+
+    $.ajax({
+        method: "GET",
+        url: "/articles/" + thisId
+    })
+    .then(function(data) {
+        console.log(data);
+        $(".modal-footer").append("<button data-id='" + data._id + "' id='saveNote' data-dismiss='modal' class='btn btn-default'>Save Note</button>");
+
+        if (data.note) {
+
+            let delNoteBtn = $("<button>")
+                            .addClass("delete-note btn btn-sm btn-danger")
+                            .text("X")
+                            .attr("id", data.note._id);
+            const div = $("<div>");
+
+            $("#currentNotes").append(
+                div.append(data.note.body)
+                .append(delNoteBtn)
+            )
+        }
+    })
+});
+
 $(document).on("click", ".view", function() {
 
     let link = $(this).attr("href");
 
     window.location.href = link;
+});
+
+$(document).on("click", "#saveNote", function() {
+
+    var thisId = $(this).attr("data-id");
+
+    console.log(thisId);
+
+    let noteBody = $("#noteBody").val();
+
+    console.log(noteBody);
+
+    $.ajax({
+        method: "POST",
+        url: "/articles/" + thisId,
+        data: {
+            body: noteBody
+        }
+    })
+    .then(function(data) {
+        console.log("====== Note Data =====");
+        console.log(data);
+        $(".modal-footer").empty();
+    });
+
+    $("#noteBody").val("");
 });

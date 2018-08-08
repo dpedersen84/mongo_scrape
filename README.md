@@ -1,24 +1,38 @@
 # The Onion Scraper!
 
-### This application uses Express.js, Node.js, and MongoDB to scrape The Onion for its most recent articles.
+## Getting Started
 
-**NPMs Used:**
+### Prerequisites
 
-1. Mongoose
-2. Path
-3. Morgan-Logger
-4. Body-Parser
-5. Cheerio
-6. Axios
+To use this repo, you will first need to install [node](https://nodejs.org/en/) and [MongoDB](https://docs.mongodb.com/manual/installation/).
 
-## If you wish to clone this app down to your computer...
+### Installing
 
-1. Be sure to have MongoDB installed.
-2. Cd into your directory and npm install.
-3. Open another terminal window and run mongod.
-4. Run the server with node server.js
-5. Navigate to localhost: 8080 in your browser.
+1. Install the required node packages
 
-**Screenshots coming soon!**
+```
+npm install
+```
 
-*Copyright 2018 Dan Pedersen*
+2. Start mongod process from a command prompt and leave it running while you develop
+
+```
+mongod
+```
+
+3. Start the application
+
+```
+npm start
+```
+
+## Contributors
+
+* Dan Pedersen
+
+## Built With
+
+* [Express](https://expressjs.com/) - node.js routing
+* [MongoDB](https://www.mongodb.com/) - database
+* [Mongoose](http://mongoosejs.com/) - database modeling
+* [React](http://reactjs.org) - front end design
