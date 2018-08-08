@@ -9,9 +9,17 @@ const axios = require("axios");
 
 const app = express();
 
-let db = require("./models");
+const db = require("./models");
 
-let PORT = 8080;
+const PORT = process.env.PORT || 8080;
+
+// If deployed, use the deployed database. Otherwise use the local mongo_scrape database
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongo_scrape";
+
+// Set mongoose to leverage built in JavaScript ES6 Promises
+// Connect to the Mongo DB
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
 
 // Configure middleware
 // Use morgan logger for logging requests
@@ -26,11 +34,15 @@ mongoose.connect("mongodb://localhost:27017/mongo_scrape" , { useNewUrlParser: t
 
 // Routes
 app.use(routes);
-// // Main scrape route
-// app.get("/scrape", (req, res) => {
-//     axios.get("http://www.theonion.com").then((response) => {
+
+// Routes
+// Main scrape route
+// To Do:
+// Stop scraping of duplicate articles
+app.get("/scrape", function(req, res) {
+    axios.get("http://www.theonion.com").then(function(response) {
         
-//         let $ = cheerio.load(response.data);
+        const $ = cheerio.load(response.data);
 
 //         $("h1 a").each(function(i, element) {
 

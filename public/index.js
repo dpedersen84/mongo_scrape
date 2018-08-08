@@ -4,7 +4,8 @@ $.getJSON("/articles", function(data) {
         
         console.log("No articles!");
 
-        let message = $("<h2>")
+        const message = $("<h2>")
+
                     .addClass("message")
                     .css({"text-align": "center"})
                     .html("No articles have been scraped!");
@@ -13,44 +14,26 @@ $.getJSON("/articles", function(data) {
     };
 
     data.forEach(article => {
+
+        const well = $("<div class='well'>");
         
-        let favBtn = $("<button>")
+        const favBtn = $("<button>")
                         .addClass("favorite btn btn-primary")
                         .text("Favorite Article")
                         .attr("id", article._id);
-
-        let delFavBtn = $("<button>")
-                        .addClass("delete-favorite btn btn-danger")
-                        .text("Remove Favorite")
-                        .attr("id", article._id);
-
-        let noteBtn = $("<button>")
-                        .addClass("note btn btn-warning")
-                        .text("Add Note")
-                        .attr("id", article._id)
-                        .attr("data-target", "#myModal")
-                        .attr("data-toggle", "modal");
             
-        let viewBtn = $("<button>")
+        const viewBtn = $("<button>")
                         .addClass("view btn btn-info")
                         .text("View Article")
                         .attr("href", article.link);
 
-        if (article.favorite === true) {
-            $("#favorites").append(
-                $("<div>").text(article.title),
-                $("<div>").text(article.link),
-                $("<div>").append(delFavBtn)
-                .append(noteBtn)
-                .append(viewBtn)
-            )
-        };
-
         $("#articles").append(
+            well.append(
             $("<div>").text(article.title),
             $("<div>").text(article.link),
             $("<div>").html(favBtn)
             .append(viewBtn)
+            )
         );
     });
 });

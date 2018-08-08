@@ -30,46 +30,38 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <div id="favorites">
-                    <!-- <span>No Favorites!</span> -->
-                </div>
+                <div id="favorites"></div>
             </div>
         </div>
     </div>
-    <!-- <h1>Scraper!(No handlebars)</h1> -->
 
     <!-- Modal -->
     <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
-    
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Save a Note!</h4>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Notes</h4>
+                </div>
+                <div class="modal-notes">
+                    <div id="currentNotes"></div>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="body">Note:</label>
+                            <textarea class="form-control" rows="5" id="noteBody"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                </div>
             </div>
-            <div class="modal-notes">
-                <div id="currentNotes"></div>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="body">Note:</label>
-                        <textarea class="form-control" rows="5" id="noteBody"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-            <!-- <button type="button" class="btn btn-default" data-dismiss="modal" id="saveNote">Save Note</button> -->
-            </div>
-        </div>
-    
         </div>
     </div>
-    
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="app.js"></script>
+    <script src="favorites.js"></script>
 </body>
 </html>
