@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const articlesController = require("../../controllers/article.ctrl");
+const favoritesController = require("../../controllers/favorite.ctrl");
 const Article = require("../../models/Article");
 // const Note = require("../../models/Note");
 const axios = require("axios");
@@ -22,16 +23,11 @@ router.get("/scrape", (req, res) => {
             result.image = $("picture").children("img").attr("src");
             result.date = Date.now();
 
-            Article.create(result, {unique: true})
-                .then((dbArticles) => {
-                    console.log(dbArticles);
-                })
-                .catch(function(err) {
-                    res.json(err);
-                });
+            Article.create(result)
+                .then((dbArticles) => console.log(dbArticles))
+                .catch((err) => console.log(err));
             
         });
-        res.send("Done scraping The Onion!");
     });
 });
 
@@ -48,16 +44,16 @@ router.route("/:id")
 
 // Match with "/api/articles/favorites"
 router.route("/favorites")
-    .get(articlesController.findAll)
-    .post(articlesController.create);
+    .get(favoritesController.findAll)
+    .post(favoritesController.create);
 
 // Match with "/api/articles/favorites/:id"
 router.route("/favorites/:id")
-    .get(articlesController.findById)
-    .put(articlesController.update)
-    .delete(articlesController.remove)
-    .post(articlesController.saveNote)
-    .delete(articlesController.deleteNote);
+    .get(favoritesController.findById)
+    .put(favoritesController.update)
+    .delete(favoritesController.remove)
+    .post(favoritesController.saveNote)
+    .delete(favoritesController.deleteNote);
 
 // Route to update single Article in database to a favorite
 // this does not work if it is a put
