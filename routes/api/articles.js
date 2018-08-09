@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const articlesController = require("../../controllers/article.ctrl");
-
 const Article = require("../../models/Article");
-const Note = require("../../models/Note");
+// const Note = require("../../models/Note");
 const axios = require("axios");
 const cheerio = require("cheerio");
 
@@ -23,7 +22,7 @@ router.get("/scrape", (req, res) => {
             result.image = $("picture").children("img").attr("src");
             result.date = Date.now();
 
-            Article.create(result)
+            Article.create(result, {unique: true})
                 .then((dbArticles) => {
                     console.log(dbArticles);
                 })

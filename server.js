@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const routes = require("./routes");
@@ -22,6 +23,7 @@ const PORT = process.env.PORT || 3001;
 // mongoose.connect(MONGODB_URI);
 
 // Configure middleware
+app.use(cors());
 // Use morgan logger for logging requests
 app.use(logger("dev"));
 // Use body-parser for handling form submissions
