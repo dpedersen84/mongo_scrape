@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import API from "../../utils/API";
+import Jumbotron from "../../components/Jumbotron";
 import Well from "../../components/Well/Well.js";
 // import cheerio from "cheerio";
 
@@ -11,24 +13,18 @@ class Articles extends React.Component {
 
     componentDidMount() {
         this.loadArticles();
-        console.log("hello")
     }
 
     loadArticles = () => {
         API.getArticles()
-            .then(res => {
-                
-                this.setState({ articles: res.data })
-            })
-            .catch(err => console.log("ERROR", err));
+            .then(res => this.setState({ articles: res.data }))
+            .catch(err => console.log(err));
     };
 
     scrapeArticles = () => {
         API.scrapeArticles() 
-            .then((res) => {
-                    console.log(res)
-                })
-            .then(window.location.reload())
+            .then((res) => this.loadArticles())
+            .catch(err => console.log(err));
     };
 
     viewArticle = () => {
@@ -45,23 +41,26 @@ class Articles extends React.Component {
     render() {
         return (
             <div>
-                <div className="container">
+                <Jumbotron>
+                    <h1> Scrape Articles from the Onion!</h1>
                     <div className="btn btn-warning" onClick={this.scrapeArticles}> Scrape </div>
+                </Jumbotron>
+                <div className="container">
                     <div>
-                    
-                    {this.state.articles 
-                        .map(article => (
-                            <Well key={article._id} >
-                                <div><h3>{article.title}</h3></div>
-                                <div onClick={this.viewArticle}><h5>{article.link}</h5></div>
-                                <div><h5>{article.date}</h5></div>
-                                <div className="btn btn-primary" onClick={this.favArticle}>
-                                    Favorite
-                                </div>
-                            </Well>
-                        ))
+                        {this.state.articles 
+                            .map(article => (
+                                <Well key={article._id} >
+                                    <div><h3>{article.title}</h3></div>
+                                    <div onClick={this.viewArticle}><h5>{article.link}</h5></div>
+                                    <div className="btn btn-primary" onClick={this.favArticle}>
+                                        Favorite
+                                    </div>
+                                    {/* <Link to={article.link}>
+                                    <div className="btn btn-primary">View</div>
+                                    </Link> */}
+                                </Well>
+                            ))
                         }
-                    
                     </div>
                 </div>
             </div>
