@@ -2,6 +2,6 @@
 
 module.exports = {
     Article: require("./Article"),
-    Favorites: require("./Favorite"),
+    Favorite: require("./Favorite"),
     Note: require("./Note")
 };

@@ -19,7 +19,7 @@ module.exports = {
 
     create: (req, res) => {
         db.Favorite
-            .create(result)
+            .create(req.body)
             .then(dbFavorites => {console.log(dbFavorites), res.json(dbFavorites)})
             .catch(err => res.json(err))
     },

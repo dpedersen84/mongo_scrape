@@ -10,4 +10,8 @@ export default {
         return axios.get("/api/articles/scrape");
     },
 
+    favoriteArticle: (articleData) => {
+        return axios.post("/api/articles/favorites", articleData);
+    },
+
 };

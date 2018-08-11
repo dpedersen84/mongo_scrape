@@ -31,8 +31,16 @@ class Articles extends React.Component {
         console.log("view article")
     };
 
-    favArticle = (id) => {
-        console.log("fav article")
+    favArticle = (title, link) => {
+        // console.log("fav article")
+        console.log(title);
+        console.log(link);
+        API.favoriteArticle({
+            title: title,
+            link: link,
+        })
+        .then(res => console.log(res))
+            
     };
 
     formatDate= (date) => {
@@ -52,7 +60,15 @@ class Articles extends React.Component {
                                 <Well key={article._id} >
                                     <div><h3>{article.title}</h3></div>
                                     <div onClick={this.viewArticle}><h5>{article.link}</h5></div>
-                                    <div className="btn btn-primary" onClick={this.favArticle}>
+                                    <div 
+                                        className="btn btn-primary" 
+                                        onClick={() => this.favArticle(article.title, article.link)} 
+                                        key={article._id}
+                                        id={article._id}
+                                        title={article.title}
+                                        link={article.link}
+
+                                    >
                                         Favorite
                                     </div>
                                     {/* <Link to={article.link}>
