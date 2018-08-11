@@ -52,6 +52,9 @@ class Articles extends React.Component {
                 <Jumbotron>
                     <h1> Scrape Articles from the Onion!</h1>
                     <div className="btn btn-warning" onClick={this.scrapeArticles}> Scrape </div>
+                    <Link to={"/favorites"}>
+                        <div className="btn btn-danger"> Favorites </div>
+                    </Link>
                 </Jumbotron>
                 <div className="container">
                     <div>

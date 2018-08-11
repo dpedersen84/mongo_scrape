@@ -11,6 +11,7 @@ let FavoriteSchema = new Schema({
     },
     link: {
         type: String,
+        unique: true,
         required: true
     },
     note: {

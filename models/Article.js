@@ -11,10 +11,8 @@ let ArticleSchema = new Schema({
     },
     link: {
         type: String,
+        unique: true,
         required: true
-    },
-    favorite: {
-        type: Boolean,
     },
     image: {
         type: String
