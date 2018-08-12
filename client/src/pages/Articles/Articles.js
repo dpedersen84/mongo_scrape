@@ -27,20 +27,18 @@ class Articles extends React.Component {
             .catch(err => console.log(err));
     };
 
-    viewArticle = () => {
-        console.log("view article")
-    };
-
     favArticle = (title, link) => {
         // console.log("fav article")
-        console.log(title);
-        console.log(link);
+        // console.log(title);
+        // console.log(link);
         API.favoriteArticle({
             title: title,
             link: link,
         })
-        .then(res => console.log(res))
-            
+        .then(res => {
+            // console.log(res)
+            res.data.code === 11000 ? alert("Already a favorite!") : alert("Favorite added!")
+        })
     };
 
     formatDate= (date) => {
@@ -61,8 +59,12 @@ class Articles extends React.Component {
                         {this.state.articles 
                             .map(article => (
                                 <Well key={article._id} >
-                                    <div><h3>{article.title}</h3></div>
-                                    <div onClick={this.viewArticle}><h5>{article.link}</h5></div>
+                                    <div>
+                                        <h3>{article.title}</h3>
+                                    </div>
+                                    <div>
+                                        <a href={article.link}>{article.link}</a>
+                                    </div>
                                     <div 
                                         className="btn btn-primary" 
                                         onClick={() => this.favArticle(article.title, article.link)} 
@@ -70,13 +72,9 @@ class Articles extends React.Component {
                                         id={article._id}
                                         title={article.title}
                                         link={article.link}
-
                                     >
                                         Favorite
                                     </div>
-                                    {/* <Link to={article.link}>
-                                    <div className="btn btn-primary">View</div>
-                                    </Link> */}
                                 </Well>
                             ))
                         }
