@@ -60,7 +60,7 @@ class Articles extends React.Component {
                             .map(article => (
                                 <Well key={article._id} >
                                     <div>
-                                        <h3>{article.title}</h3>
+                                        <h3 id={article._id}>{article.title}</h3>
                                     </div>
                                     <div>
                                         <a href={article.link}>{article.link}</a>

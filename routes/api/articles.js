@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const articlesController = require("../../controllers/article.ctrl");
-const favoritesController = require("../../controllers/favorite.ctrl");
+// const favoritesController = require("../../controllers/favorite.ctrl");
 const Article = require("../../models/Article");
 // const Note = require("../../models/Note");
 const axios = require("axios");
@@ -42,18 +42,7 @@ router.route("/:id")
     .put(articlesController.update)
     .delete(articlesController.remove);
 
-// Match with "/api/articles/favorites"
-router.route("/favorites")
-    .get(favoritesController.findAll)
-    .post(favoritesController.create);
 
-// Match with "/api/articles/favorites/:id"
-router.route("/favorites/:id")
-    .get(favoritesController.findById)
-    .put(favoritesController.update)
-    .delete(favoritesController.remove)
-    .post(favoritesController.saveNote)
-    .delete(favoritesController.deleteNote);
 
 // Route to update single Article in database to a favorite
 // this does not work if it is a put

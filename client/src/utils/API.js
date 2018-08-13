@@ -11,7 +11,11 @@ export default {
     },
 
     favoriteArticle: (articleData) => {
-        return axios.post("/api/articles/favorites", articleData);
+        return axios.post("/api/favorites", articleData);
+    },
+
+    getFavorites: () => {
+        return axios.get("/api/favorites");
     },
 
 };
