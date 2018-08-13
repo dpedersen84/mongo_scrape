@@ -4,14 +4,8 @@ const cors = require("cors");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const routes = require("./routes");
-// const path = require("path");
-// const cheerio = require("cheerio");
-// const axios = require("axios");
 
 const app = express();
-
-// const db = require("./models");
-
 const PORT = process.env.PORT || 3001;
 
 // If deployed, use the deployed database. Otherwise use the local mongo_scrape database
@@ -35,7 +29,7 @@ app.use(bodyParser.json());
 // Connect to Mongo DB
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/mongo_scrape")
     .then(() =>  console.log('Connected to MongoDB'))
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 // Routes
 app.use(routes);
 

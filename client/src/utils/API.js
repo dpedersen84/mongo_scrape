@@ -18,4 +18,8 @@ export default {
         return axios.get("/api/favorites");
     },
 
+    deleteFavorite: (articleId) => {
+        return axios.delete("/api/favorites/" + articleId);
+    },
+
 };

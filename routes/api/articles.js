@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const articlesController = require("../../controllers/article.ctrl");
-// const favoritesController = require("../../controllers/favorite.ctrl");
 const Article = require("../../models/Article");
-// const Note = require("../../models/Note");
 const axios = require("axios");
 const cheerio = require("cheerio");
 
@@ -41,33 +39,6 @@ router.route("/:id")
     .get(articlesController.findById)
     .put(articlesController.update)
     .delete(articlesController.remove);
-
-
-
-// Route to update single Article in database to a favorite
-// this does not work if it is a put
-// router.put("/:id", (req, res) => {
-//     console.log("add favorite");
-//     Article.findByIdAndUpdate({ _id: req.params.id }, { favorite: true })
-//         .then(dbArticle => {
-//             res.json(dbArticle);
-//         })
-//         .catch(err => {
-//             res.json(err);
-//         });
-// })
-
-// // Route to remove single Article in database from favorites
-// router.put("/:id", (req, res) => {
-//     console.log("remove favorite");
-//     Article.findByIdAndUpdate({ _id: req.params.id }, { favorite: false })
-//         .then(dbArticle => {
-//             res.json(dbArticle);
-//         })
-//         .catch(err => {
-//             res.json(err);
-//         });
-// })
 
 // // Route to save/update an Article's note
 // router.post("/:id", (req, res) => {

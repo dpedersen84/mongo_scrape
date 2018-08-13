@@ -5,7 +5,7 @@ module.exports = {
     findAll: (req, res) => {
         db.Article
             .find({})
-            .then(dbArticles => {console.log(dbArticles), res.json(dbArticles)})
+            .then(dbArticles => res.json(dbArticles))
             .catch(err => res.json(err))
     },
 

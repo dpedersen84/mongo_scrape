@@ -18,13 +18,13 @@ class Articles extends React.Component {
     loadArticles = () => {
         API.getArticles()
             .then(res => this.setState({ articles: res.data }))
-            .catch(err => console.log(err));
+            // .catch(err => console.log(err));
     };
 
     scrapeArticles = () => {
         API.scrapeArticles() 
             .then((res) => this.loadArticles())
-            .catch(err => console.log(err));
+            // .catch(err => console.log(err));
     };
 
     favArticle = (title, link) => {
@@ -49,9 +49,9 @@ class Articles extends React.Component {
             <div>
                 <Jumbotron>
                     <h1> Scrape Articles from the Onion!</h1>
-                    <div className="btn btn-warning" onClick={this.scrapeArticles}> Scrape </div>
+                    <div className="btn btn-warning" onClick={this.scrapeArticles}> Scrape Articles </div>
                     <Link to={"/favorites"}>
-                        <div className="btn btn-danger"> Favorites </div>
+                        <div className="btn btn-danger"> View Favorites </div>
                     </Link>
                 </Jumbotron>
                 <div className="container">

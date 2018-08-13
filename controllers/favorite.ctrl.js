@@ -5,7 +5,7 @@ module.exports = {
     findAll: (req, res) => {
         db.Favorite
             .find({})
-            .then(dbFavorites => {console.log(dbFavorites), res.json(dbFavorites)})
+            .then(dbFavorites => res.json(dbFavorites))
             .catch(err => res.json(err))
     },
 
