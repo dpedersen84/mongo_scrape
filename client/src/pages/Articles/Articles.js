@@ -59,19 +59,11 @@ class Articles extends React.Component {
                         {this.state.articles 
                             .map(article => (
                                 <Well key={article._id} >
-                                    <div>
-                                        <h3 id={article._id}>{article.title}</h3>
-                                    </div>
-                                    <div>
-                                        <a href={article.link}>{article.link}</a>
-                                    </div>
+                                    <div><h3>{article.title}</h3></div>
+                                    <div><a href={article.link}>{article.link}</a></div>
                                     <div 
                                         className="btn btn-primary" 
                                         onClick={() => this.favArticle(article.title, article.link)} 
-                                        key={article._id}
-                                        id={article._id}
-                                        title={article.title}
-                                        link={article.link}
                                     >
                                         Favorite
                                     </div>

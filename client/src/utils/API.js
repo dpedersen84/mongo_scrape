@@ -22,4 +22,8 @@ export default {
         return axios.delete("/api/favorites/" + articleId);
     },
 
+    saveNote: (articleId, noteData) => {
+        return axios.post("/api/favorites/" + articleId, noteData);
+    },
+
 };
