@@ -14,10 +14,10 @@ let FavoriteSchema = new Schema({
         unique: true,
         required: true
     },
-    note: {
+    note: [{
         type: Schema.Types.ObjectId,
         ref: "Note"
-    }
+    }]
 });
 
 let Favorite = mongoose.model("Favorite", FavoriteSchema);

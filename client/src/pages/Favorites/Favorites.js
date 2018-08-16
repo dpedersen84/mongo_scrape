@@ -10,6 +10,7 @@ class Favorites extends React.Component {
     state = {
         favArticles: [],
         noteBody: "",
+        notes: [],
     };
 
     componentDidMount() {
@@ -20,7 +21,15 @@ class Favorites extends React.Component {
         API.getFavorites()
             .then(res => {
                 this.setState({ favArticles: res.data });
-                // console.log(res.data);
+                console.log(res.data);
+
+                { this.state.favArticles
+                        .forEach(article => {
+                            console.log(article.note)
+                            API.loadNotes(article._id)
+                        })
+                        
+                }
             })
             // .catch(err => console.log(err));
     };
@@ -31,8 +40,6 @@ class Favorites extends React.Component {
     };
 
     addNote = (id) => {
-        let test = "This is a test body.";
-
         API.saveNote(
             id, 
             { body: this.state.noteBody }

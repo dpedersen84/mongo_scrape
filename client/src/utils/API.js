@@ -26,4 +26,8 @@ export default {
         return axios.post("/api/favorites/" + articleId, noteData);
     },
 
+    loadNotes: (articleId) => {
+        return axios.get("/api/favorites/" + articleId);
+    }
+
 };

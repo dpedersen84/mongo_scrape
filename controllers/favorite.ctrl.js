@@ -42,7 +42,7 @@ module.exports = {
     saveNote: (req, res) => {
         db.Note
             .create(req.body) 
-            .then(dbNote => db.Favorite.findOneAndUpdate({ _id: req.params.id}, {note: dbNote._id}, {new: true }))
+            .then(dbNote => db.Favorite.findOneAndUpdate({ _id: req.params.id}, {$push: {note: dbNote._id}}, {new: true }))
             .then(dbFavorite => res.json(dbFavorite))
             .catch(err => res.json(err))
     },
