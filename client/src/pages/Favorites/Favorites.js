@@ -53,9 +53,17 @@ class Favorites extends React.Component {
             .then(res => {
                 console.log(res.data.note)
                 this.setState({ notes: res.data.note })
-                this.state.notes.map(note => {
-                    return console.log(note.body)
-                })
+                // this.state.notes.map(note => {
+                //     return console.log(note)
+                // })
+            })
+    };
+
+    deleteNote = id => {
+        console.log("note id", id)
+        API.deleteNote(id)
+            .then(res => {
+                this.loadArticles();
             })
     }
 
@@ -78,7 +86,7 @@ class Favorites extends React.Component {
                                         <div key={note._id}>
                                             <ul>
                                                 <li>
-                                                    {note.body}
+                                                    {note.body} <button className="btn btn-sm btn-warning" onClick={() => this.deleteNote(note._id)}> X </button>
                                                 </li>
                                             </ul>
                                         </div>

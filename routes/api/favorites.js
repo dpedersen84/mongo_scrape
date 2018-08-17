@@ -14,6 +14,6 @@ router.route("/:id")
     .put(favoritesController.update)
     .delete(favoritesController.remove)
     .post(favoritesController.saveNote)
-    .delete(favoritesController.deleteNote);
+    // .delete(favoritesController.deleteNote);
 
     module.exports = router;

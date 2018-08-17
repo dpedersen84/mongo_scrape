@@ -28,6 +28,10 @@ export default {
 
     loadNotes: (articleId) => {
         return axios.get("/api/favorites/" + articleId);
+    },
+
+    deleteNote: (noteId, articleId) => {
+        return axios.delete("/api/notes/" + noteId, articleId);
     }
 
 };

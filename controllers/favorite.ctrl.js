@@ -46,11 +46,4 @@ module.exports = {
             .then(dbFavorite => res.json(dbFavorite))
             .catch(err => res.json(err))
     },
-
-    deleteNote: (req, res) => {
-        db.Note
-            .findByIdAndRemove({ _id: req.params.id} )
-            .then(dbFavorite => res.json(dbFavorite))
-            .catch(err => res.json(err))
-    }
 };
