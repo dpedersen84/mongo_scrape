@@ -10,6 +10,7 @@ class Favorites extends React.Component {
     state = {
         favArticles: [],
         noteBody: "",
+        favId: "",
         notes: [],
     };
 
@@ -19,11 +20,8 @@ class Favorites extends React.Component {
 
     loadArticles = () => {
         API.getFavorites()
-            .then(res => {
-                this.setState({ favArticles: res.data });
-                // console.log(res.data);
-            })
-            // .catch(err => console.log(err));
+            .then(res => this.setState({ favArticles: res.data }))
+            .catch(err => console.log(err))
     };
 
     delFavArticle = id => {
@@ -32,39 +30,28 @@ class Favorites extends React.Component {
     };
 
     addNote = (id) => {
-        API.saveNote(
-            id, 
-            { body: this.state.noteBody }
-        )
+        API.saveNote(id, { body: this.state.noteBody })
             .then(res => this.loadArticles())
     };
 
     handleInputChange = event => {
         const { name, value } = event.target;
-        // console.log(name, value)
         this.setState({
             [name]: value
-        });
+        })
     };
 
     showNotes = id => {
-        // console.log(id)
         API.loadNotes(id)
             .then(res => {
-                console.log(res.data.note)
                 this.setState({ notes: res.data.note })
-                // this.state.notes.map(note => {
-                //     return console.log(note)
-                // })
+                this.setState({ favId: res.data._id })
             })
     };
 
     deleteNote = id => {
-        console.log("note id", id)
         API.deleteNote(id)
-            .then(res => {
-                this.loadArticles();
-            })
+            .then(res => this.loadArticles())
     }
 
     render() {
@@ -73,7 +60,7 @@ class Favorites extends React.Component {
                 <Jumbotron>
                     <h1> Onion Favorites!</h1>
                     <Link to={"/"}>
-                    <div className="btn btn-info"> Back </div>
+                        <div className="btn btn-info"> Back </div>
                     </Link>
                 </Jumbotron>
                 <div className="container">
@@ -110,8 +97,7 @@ class Favorites extends React.Component {
                                             trigger={<button className="btn btn-primary" onClick={() => this.showNotes(article._id)}> Add Note </button>}
                                             modal
                                             closeOnDocumentClick
-                                            // onClick={() => this.showNotes(article._id)}
-                                            >
+                                        >
                                             <div>
                                                 <form>
                                                     <TextArea 

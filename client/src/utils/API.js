@@ -30,8 +30,12 @@ export default {
         return axios.get("/api/favorites/" + articleId);
     },
 
-    deleteNote: (noteId, articleId) => {
-        return axios.delete("/api/notes/" + noteId, articleId);
+    deleteNote: (noteId) => {
+        return axios.delete("/api/notes/" + noteId);
+    },
+
+    updateNotes: (articleId) => {
+        return axios.put("/api/favorites/" + articleId);
     }
 
 };
